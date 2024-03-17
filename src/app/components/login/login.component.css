@@ -1,6 +1,6 @@
-/* You can add global styles to this file, and also import other style files */
+/* @import "~bootstrap/dist/css/bootstrap.min.css"; */
 
-.gradient-custom {
+/* .gradient-custom {
   background: #c08ff5;
   background: -webkit-linear-gradient(
       to right,
@@ -25,4 +25,4 @@
 
 .active {
   background: rgba(59, 70, 138, 0.35);
-}
+} */
