@@ -27,7 +27,7 @@ export class IpComponent implements OnInit {
         const responseString = JSON.stringify(response);
 
         // Передаем строку JSON в параметрах маршрута
-        this.router.navigate(['/login'], { queryParams: { response: responseString } });
+        this.router.navigate(['/login'], { queryParams: { ip: this.ipForm.get('ipAddress')?.value, port: this.ipForm.get('port')?.value, response: responseString } });
       },
       (error) => {
         alert("Произошла ошибка")

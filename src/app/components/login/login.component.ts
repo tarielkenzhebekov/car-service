@@ -16,6 +16,8 @@ export class LoginComponent implements OnInit {
   firstTextArea: string = '';
   secondTextArea: string = '';
   submitText: string = '';
+  ip: any;
+  port: any;
 
   constructor(private route: ActivatedRoute) {}
 
@@ -25,11 +27,10 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.firstTextArea = "Значение для вывода";
-
     this.route.queryParams.subscribe(params => {
       this.response = JSON.parse(params['response']);
-      console.log(this.response);
+      this.ip = params['ip'];
+      this.port = params['port'];
     
       if (this.response && Array.isArray(this.response)) {
         this.response.forEach((item: { text: string, tag: string }) => {
