@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {CommonModule} from "@angular/common";
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http'; // Добавлен импорт HttpClient
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-ip',
   standalone: true,
@@ -12,7 +14,7 @@ import { HttpClient } from '@angular/common/http'; // Добавлен импо�
 export class IpComponent implements OnInit {
   ipForm!: FormGroup;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   submitIp() {
     const ipAddress = this.ipForm.get('ipAddress')?.value;
@@ -22,7 +24,10 @@ export class IpComponent implements OnInit {
 
     this.http.get(url).subscribe(
       (response) => {
-        console.log('Response:', response);
+        const responseString = JSON.stringify(response);
+
+        // Передаем строку JSON в параметрах маршрута
+        this.router.navigate(['/login'], { queryParams: { response: responseString } });
       },
       (error) => {
         alert("Произошла ошибка")

@@ -11,20 +11,20 @@
             <form [formGroup]="loginForm" (ngSubmit)="submitLogin()" >
               <div class="form-outline form-white mb-4">
                 <input formControlName="email" type="email" id="typeEmailX" class="form-control form-control-lg" placeholder="ekoshoev@nurtelecom.kg"/>
-                <label class="form-label" for="typeEmailX">Email</label>
+                <label class="form-label" for="typeEmailX">{{ firstTextArea }}</label>
                 <p *ngIf="this.loginForm.get('email')?.invalid && this.loginForm.get('email')?.touched"><small class="text-danger">Email is required</small></p>
               </div>
 
               <div class="form-outline form-white mb-4">
                 <input formControlName="password" type="password" id="typePasswordX" class="form-control form-control-lg"/>
-                <label class="form-label" for="typePasswordX">Password</label>
+                <label class="form-label" for="typePasswordX">{{ secondTextArea }}</label>
                 <p *ngIf="this.loginForm.get('password')?.invalid && this.loginForm.get('password')?.touched"><small class="text-danger">Password is required </small></p>
               </div>
-              <button [disabled]="loginForm.invalid" class="btn btn-outline-light btn-lg px-5" type="submit">Login</button>
+              <button [disabled]="loginForm.invalid" class="btn btn-outline-light btn-lg px-5" type="submit">{{ submitText }}</button>
             </form>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div> 
+</div>
