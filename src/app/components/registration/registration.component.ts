@@ -6,6 +6,7 @@ import {NgForOf, NgIf} from "@angular/common";
   selector: 'app-registration',
   standalone: true,
   templateUrl: './registration.component.html',
+  styleUrls: ['./registration.component.css'],
   imports: [
     ReactiveFormsModule,
     NgIf,
@@ -14,8 +15,9 @@ import {NgForOf, NgIf} from "@angular/common";
 })
 export class RegistrationComponent {
   registrationForm!: FormGroup;
-  isSubmit: boolean = false;
   engineTypes: string[] = ['Бензиновый', 'Дизельный', 'Электрический'];
+  fileUploaded: boolean = false;
+  fileName: String = '';
 
   constructor(private formBuilder: FormBuilder) { }
 
@@ -25,7 +27,8 @@ export class RegistrationComponent {
       name: ['', Validators.required],
       year: ['0', [Validators.required, Validators.min(0), Validators.max((new Date()).getFullYear())]],
       price: ['0', [Validators.required, Validators.min(0)]],
-      engineType: ['', [Validators.required]]
+      engineType: ['', [Validators.required]],
+      image: ['']
     });
   }
 
@@ -35,6 +38,19 @@ export class RegistrationComponent {
     this.registrationForm.get('engineType')?.setValue(e.target.value, {
       onlySelf: true,
     });
+  }
+
+  uploadImage(e: any) {
+    const file:File = e.target.files[0];
+
+    // TODO Remove
+    console.log(e.target.files[0]);
+
+    this.fileUploaded = true;
+    this.fileName = file.name;
+    // this.registrationForm.get('image')?.setValue(file, {
+    //   onlySelf: true,
+    // });
   }
 
 

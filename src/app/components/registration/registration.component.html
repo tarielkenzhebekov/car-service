@@ -36,7 +36,17 @@
                 </select>
                 <p *ngIf="this.registrationForm.get('engineType')?.invalid && this.registrationForm.get('engineType')?.touched"><small class="text-danger">Пожалуйста, выберите тип двигателя !</small></p>
               </div>
-              <button [disabled]="registrationForm.invalid" class="btn btn-outline-light btn-lg px-5" type="submit">Отправить</button>
+
+              <div class="form-outline form-white mb-4">
+                <input formControlName='image' type="file" class="file-input" accept="image/*" (change)="uploadImage($event)" #fileUpload>
+                <div class="file-upload">
+                  {{ fileName || "Загрузить фото."}}
+                  <button type="button" class="btn btn-primary btn-lg upload-btn" (click)="fileUpload.click()">
+                    <i class="bi bi-paperclip"></i>
+                  </button>
+                </div>
+              </div>
+              <button [disabled]="registrationForm.invalid || !fileUploaded" class="btn btn-outline-light btn-lg px-5" type="submit">Отправить</button>
             </form>
           </div>
         </div>
