@@ -3,6 +3,7 @@ import {CommonModule} from "@angular/common";
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http'; // Добавлен импорт HttpClient
 import { Router } from '@angular/router';
+import {ComponentService} from "../../services/component.service";
 
 @Component({
   selector: 'app-ip',
@@ -20,26 +21,21 @@ export class IpComponent implements OnInit {
     const ipAddress = this.ipForm.get('ipAddress')?.value;
     const port = this.ipForm.get('port')?.value;
 
-    const url = `http://${ipAddress}:${port}`;
-
-    this.http.get(url).subscribe(
-      (response) => {
-        const responseString = JSON.stringify(response);
-
-        // Передаем строку JSON в параметрах маршрута
-        this.router.navigate(['/login'], { queryParams: { ip: this.ipForm.get('ipAddress')?.value, port: this.ipForm.get('port')?.value, response: responseString } });
-      },
-      (error) => {
-        alert("Произошла ошибка")
-        console.error('Error:', error);
-      }
-    );
+    ComponentService.checkSocket(ipAddress, port)
+      .then(response=> {
+        localStorage.setItem("host", ipAddress);
+        localStorage.setItem("port", port);
+        this.router.navigate(['/login']);
+      }).catch(error => {
+        console.log("Server not found!");
+        alert("Server not found!");
+    });
   }
 
   ngOnInit(): void {
     this.ipForm = new FormGroup({
-      'ipAddress': new FormControl('', [Validators.required]),
-      'port': new FormControl('', [Validators.required]),
+      'ipAddress': new FormControl('', [Validators.required, Validators.pattern('^((25[0-5]|(2[0-4]|1[0-9]|[1-9]|)[0-9])(\\.(?!$)|$)){4}$')]),
+      'port': new FormControl('', [Validators.required, Validators.pattern('^((6553[0-5])|(655[0-2][0-9])|(65[0-4][0-9]{2})|(6[0-4][0-9]{3})|([1-5][0-9]{4})|([0-5]{0,5})|([0-9]{1,4}))$')]),
     });
   }
 }

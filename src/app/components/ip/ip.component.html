@@ -6,16 +6,16 @@
             <div class="mb-md-4 mt-md-4 pb-4">
               <h2 class="fw-bold mb-2 text-uppercase">Server Configuration</h2>
               <p class="text-white-50 mb-5">Please enter IP address and port!</p>
-  
+
               <form [formGroup]="ipForm" (ngSubmit)="submitIp()" >
                 <div class="form-outline form-white mb-4">
-                  <input formControlName="ipAddress" type="text" id="typeIpX" class="form-control form-control-lg"/>
+                  <input formControlName="ipAddress" type="text" id="typeIpX" class="form-control form-control-lg" placeholder="127.0.0.1"/>
                   <label class="form-label" for="typeIpX">IP Address</label>
                   <p *ngIf="ipForm.get('ipAddress')?.invalid && ipForm.get('ipAddress')?.touched"><small class="text-danger">IP Address is required</small></p>
                 </div>
-  
+
                 <div class="form-outline form-white mb-4">
-                  <input formControlName="port" type="number" id="typePortX" class="form-control form-control-lg"/>
+                  <input formControlName="port" type="number" id="typePortX" class="form-control form-control-lg" placeholder="65535"/>
                   <label class="form-label" for="typePortX">Port</label>
                   <p *ngIf="ipForm.get('port')?.invalid && ipForm.get('port')?.touched"><small class="text-danger">Port is required</small></p>
                 </div>
@@ -27,4 +27,3 @@
       </div>
     </div>
   </div>
-  

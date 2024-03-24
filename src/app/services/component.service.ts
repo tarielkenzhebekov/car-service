@@ -14,6 +14,14 @@ export class ComponentService {
     return `http://${host}:${port}`;
   }
 
+  static checkSocket(host: string, port: string) {
+    return axios.head(`http://${host}:${port}/api/components/login`);
+  }
+
+  static getLogin() {
+    return axios.get(`${this.getUrl()}/api/components/login`);
+  }
+
   static getRegistration() {
     return axios.get(`${this.getUrl()}/api/components/registration`);
   }
