@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {NgForOf, NgIf} from "@angular/common";
+import {ComponentService} from "../../services/component.service";
 
 @Component({
   selector: 'app-registration',
@@ -18,10 +19,18 @@ export class RegistrationComponent {
   engineTypes: string[] = ['Бензиновый', 'Дизельный', 'Электрический'];
   fileUploaded: boolean = false;
   fileName: String = '';
+  components: any;
 
   constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit() {
+    // TODO Remove
+    localStorage.setItem("host", "127.0.0.1");
+    localStorage.setItem("port", "8080");
+
+    ComponentService.getRegistration()
+      .then(response => this.components = response.data)
+      .catch(e => console.log(e));
 
     this.registrationForm = this.formBuilder.group({
       name: ['', Validators.required],

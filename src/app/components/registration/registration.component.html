@@ -8,20 +8,12 @@
             <h2 class="fw-bold mb-2 text-uppercase">Регистрация авто</h2>
             <p class="text-white-50 mb-5">Введите данные авто</p>
             <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
-              <div class="form-outline form-white mb-4">
-                <input formControlName="name" type="text" id="name" class="form-control form-control-lg" placeholder="Aston Martin Bulldog"/>
-                <label class="form-label" for="name">Название</label>
-                <p *ngIf="this.registrationForm.get('name')?.invalid && this.registrationForm.get('name')?.touched"><small class="text-danger">Название обязателно!</small></p>
-              </div>
-              <div class="form-outline form-white mb-4">
-                <input formControlName="year" type="number" id="year" class="form-control form-control-lg"/>
-                <label class="form-label" for="year">Год выпуска</label>
-                <p *ngIf="this.registrationForm.get('year')?.invalid && this.registrationForm.get('year')?.touched"><small class="text-danger">Год выпуска обязателен!</small></p>
-              </div>
-              <div class="form-outline form-white mb-4">
-                <input formControlName="price" type="number" id="price" class="form-control form-control-lg"/>
-                <label class="form-label" for="price">Цена (в сомах)</label>
-                <p *ngIf="this.registrationForm.get('price')?.invalid && this.registrationForm.get('price')?.touched"><small class="text-danger">Укажите цену!</small></p>
+              <div *ngFor="let component of components">
+                <div *ngIf="component.type !== 'button'" class="form-outline form-white mb-4">
+                  <input [formControlName]="component.name" [type]="component.inputType" [id]="component.name" class="form-control form-control-lg"/>
+                  <label class="form-label" [for]="component.name">{{ component.label }}</label>
+                  <p *ngIf="this.registrationForm.get(component.name)?.invalid && this.registrationForm.get(component.name)?.touched"><small class="text-danger">Поле не заполнено или некорректен!</small></p>
+                </div>
               </div>
               <div class="form-outline form-white mb-4">
                 <select
