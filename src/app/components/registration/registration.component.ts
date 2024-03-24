@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {NgForOf, NgIf} from "@angular/common";
+import {KeyValuePipe, NgForOf, NgIf} from "@angular/common";
 import {ComponentService} from "../../services/component.service";
+import {CarService} from "../../services/car.service";
 
 @Component({
   selector: 'app-registration',
@@ -11,15 +12,21 @@ import {ComponentService} from "../../services/component.service";
   imports: [
     ReactiveFormsModule,
     NgIf,
-    NgForOf
+    NgForOf,
+    KeyValuePipe
   ],
 })
 export class RegistrationComponent {
   registrationForm!: FormGroup;
-  engineTypes: string[] = ['Бензиновый', 'Дизельный', 'Электрический'];
+  engineTypes = new Map<string, string>([
+    ["Бензиновый", "PETROL"],
+    ["Дизельный", "ELECTRIC"],
+    ["Электрический", "DIESEL"],
+  ]);
   fileUploaded: boolean = false;
   fileName: String = '';
   components: any;
+  image: any;
 
   constructor(private formBuilder: FormBuilder) { }
 
@@ -37,37 +44,38 @@ export class RegistrationComponent {
       year: ['0', [Validators.required, Validators.min(0), Validators.max((new Date()).getFullYear())]],
       price: ['0', [Validators.required, Validators.min(0)]],
       engineType: ['', [Validators.required]],
-      image: ['']
     });
   }
 
   changeEngineType(e: any) {
-    // TODO Remove
-    console.log(e.target.value);
     this.registrationForm.get('engineType')?.setValue(e.target.value, {
       onlySelf: true,
     });
   }
 
   uploadImage(e: any) {
-    const file:File = e.target.files[0];
-
     // TODO Remove
     console.log(e.target.files[0]);
-
     this.fileUploaded = true;
-    this.fileName = file.name;
-    // this.registrationForm.get('image')?.setValue(file, {
-    //   onlySelf: true,
-    // });
+    this.image = e.target.files[0];
+    this.fileName = this.image.name;
+    this.registrationForm.get('image')?.setValue(this.image);
   }
-
 
   onSubmit() {
     // TODO Remove
     console.log(this.registrationForm.value)
     if (this.registrationForm.valid) {
-      const formData = this.registrationForm.value;
+
+      let formData:FormData = new FormData();
+      formData.append('carInfo',
+        new Blob([JSON.stringify(this.registrationForm.value)], { type: 'application/json' }));
+      formData.append('image', this.image, this.image.name);
+      this.registrationForm.reset();
+
+      CarService.create(formData)
+        .then(response => console.log(response.data))
+        .catch(e => console.log(e));
     }
   }
 
