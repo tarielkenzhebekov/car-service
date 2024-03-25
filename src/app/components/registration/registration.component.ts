@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {KeyValuePipe, NgForOf, NgIf} from "@angular/common";
-import {ComponentService} from "../../services/component.service";
 import {CarService} from "../../services/car.service";
 import {Router} from "@angular/router";
 
@@ -32,7 +31,7 @@ export class RegistrationComponent {
   constructor(private formBuilder: FormBuilder, private router: Router) { }
 
   ngOnInit() {
-    ComponentService.getRegistration()
+    CarService.getRegistration()
       .then(response => this.components = response.data)
       .catch(e => console.log(e));
 
@@ -71,8 +70,7 @@ export class RegistrationComponent {
         .then(response => {
             // TODO Remove
             console.log(response.data)
-            // @ts-ignore
-          this.router.navigate("/success");
+          this.router.navigate(["/success"]);
           }
         ).catch(e =>
           console.log(e)

@@ -3,7 +3,7 @@ import {CommonModule} from "@angular/common";
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http'; // Добавлен импорт HttpClient
 import { Router } from '@angular/router';
-import {ComponentService} from "../../services/component.service";
+import {CarService} from "../../services/car.service";
 
 @Component({
   selector: 'app-ip',
@@ -21,7 +21,7 @@ export class IpComponent implements OnInit {
     const ipAddress = this.ipForm.get('ipAddress')?.value;
     const port = this.ipForm.get('port')?.value;
 
-    ComponentService.checkSocket(ipAddress, port)
+    CarService.checkSocket(ipAddress, port)
       .then(response=> {
         localStorage.setItem("host", ipAddress);
         localStorage.setItem("port", port);
