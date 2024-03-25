@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/
 import {KeyValuePipe, NgForOf, NgIf} from "@angular/common";
 import {ComponentService} from "../../services/component.service";
 import {CarService} from "../../services/car.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-registration',
@@ -28,7 +29,7 @@ export class RegistrationComponent {
   components: any;
   image: any;
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder, private router: Router) { }
 
   ngOnInit() {
     ComponentService.getRegistration()
@@ -67,8 +68,15 @@ export class RegistrationComponent {
       this.registrationForm.reset();
 
       CarService.create(formData)
-        .then(response => console.log(response.data))
-        .catch(e => console.log(e));
+        .then(response => {
+            // TODO Remove
+            console.log(response.data)
+            // @ts-ignore
+          this.router.navigate("/success");
+          }
+        ).catch(e =>
+          console.log(e)
+      );
     }
   }
 

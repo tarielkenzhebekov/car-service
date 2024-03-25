@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import {CommonModule} from "@angular/common";
 import {ComponentService} from "../../services/component.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -14,7 +15,7 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   components: any;
 
-  constructor() {}
+  constructor(private router: Router) {}
 
   ngOnInit(): void {
     ComponentService.getLogin()
@@ -38,8 +39,12 @@ export class LoginComponent implements OnInit {
     const loginData = this.loginForm.value;
     ComponentService.login(loginData)
       .then(response => {
-        // TODO Remove
-        console.log(response.status)
+          // TODO Remove
+          console.log(response.status)
+
+          if (response.status === 200) {
+            this.router.navigate(['/registration']);
+          }
         }
       ).catch(error => {
         alert(error);
