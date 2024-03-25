@@ -31,10 +31,6 @@ export class RegistrationComponent {
   constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit() {
-    // TODO Remove
-    localStorage.setItem("host", "127.0.0.1");
-    localStorage.setItem("port", "8080");
-
     ComponentService.getRegistration()
       .then(response => this.components = response.data)
       .catch(e => console.log(e));
@@ -54,12 +50,9 @@ export class RegistrationComponent {
   }
 
   uploadImage(e: any) {
-    // TODO Remove
-    console.log(e.target.files[0]);
     this.fileUploaded = true;
     this.image = e.target.files[0];
     this.fileName = this.image.name;
-    this.registrationForm.get('image')?.setValue(this.image);
   }
 
   onSubmit() {

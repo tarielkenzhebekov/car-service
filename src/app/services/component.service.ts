@@ -25,4 +25,8 @@ export class ComponentService {
   static getRegistration() {
     return axios.get(`${this.getUrl()}/api/components/registration`);
   }
+
+  static login(loginData: any) {
+    return axios.post(`${this.getUrl()}/api/auth/authenticate`, loginData);
+  }
 }
